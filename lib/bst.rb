@@ -8,13 +8,15 @@ class BST
     end 
 
     def to_balanced_tree(array)
-        mid = array.length/2.0
-        if array.length <= 1
+        if array.length < 1
             return 
+        elsif array.length == 1
+            boot = BST_Node.new(array[0])
         else 
+            mid = array.length/2.0
             boot = BST_Node.new(array[mid])
-            boot.left = to_balanced_tree(array[..array.length/2.0-1])
-            boot.right = to_balanced_tree(array[1+array.length/2.0..])
+            boot.left = to_balanced_tree(array[..mid-1])
+            boot.right = to_balanced_tree(array[1+mid..])
             return boot
         end  
     end 
@@ -27,8 +29,14 @@ class BST
 
 end 
 
+p array = merge_sort([1, 7, 4, 23, 8, 9, 4, 6, 3, 5, 7, 9, 67, 6345, 324].uniq)
 
+bst = BST.new([1, 7, 4, 23, 8, 9, 4, 6, 3, 5, 7, 9, 67, 6345, 324])
 
-bst = BST.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+p 
+
+bst
 
 bst.pretty_print
+
+
