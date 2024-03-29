@@ -45,10 +45,8 @@ class BST
         elsif root.data == key
             return root
         elsif key < root.data
-            puts "left"
             find(root.left, key)
         else 
-            puts "right "
             find(root.right, key)
         end 
     end 
@@ -57,25 +55,73 @@ class BST
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
         pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
-      end
+    end
+
+    def level_order(root)
+        if root == nil
+            return 
+        end 
+        queue = []
+        queue << root
+        while !queue.empty? 
+            yield(queue[0])
+            root = queue.shift
+            if root.left != nil
+                queue << root.left
+            end 
+            if root.right != nil
+                queue << root.right
+            end 
+        end 
+    end 
+
+    def height(root)
+        if root == nil 
+            return 0
+        else 
+            hleft = height(root.left)
+            hright = height(root.right)
+
+            if hleft > hright
+                return hleft += 1
+            else 
+                return hright += 1
+            end 
+        end 
+    end 
+
+    def depth(root, node) 
+        if root == nil
+            return -1
+        end 
+
+        dist = -1
+        
+        if ((root.data == node.data) || (dist = depth(root.left, node)) >= 0 || (dist = depth(root.right, node)) >= 0)
+            return dist+=1
+        end
+
+        return dist
+    end 
+
 
 end 
 
 p array = merge_sort([1, 7, 4, 23, 8, 9, 4, 6, 3, 5, 7, 9, 67, 6345, 324].uniq)
 
-bst = BST.new([1, 7, 4, 23, 8, 9, 4, 6, 3, 5, 7, 9, 67, 6345, 324])
-
-c = [5]
-
-bst1 = BST.new([])
-
-p bst.find(bst.root, 6345)
-
-
-
-
+bst = BST.new([1, 7, 4, 23, 8, 9, 4, 6, 3, 5, 7, 9,10, 11, 14, 67, 6345, 324, 24, 25, 26, 28])
 
 bst.pretty_print
+
+
+#bst.level_order(bst.root) {|value| p value.data}
+
+#p bst.height(bst.root)
+
+p bst.depth(bst.root, bst.find(bst.root,5))
+ 
+
+
 
 
 
